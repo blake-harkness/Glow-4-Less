@@ -1,0 +1,273 @@
+/* Add a reset for margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Add flex layout for html and body */
+html, body {
+  height: 100%;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff5f5;
+    padding-top: 70px; /* Adjust based on navbar height */
+}
+
+#root {
+    width: 100%; /* Ensure full width */
+    max-width: none; /* Remove max-width restriction */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+    text-align: center;
+    flex: 1;
+    height: 100%; /* Ensure the root element takes full height */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.upload-container {
+  margin-top: 2rem;
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style the app title */
+.app-title {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin: 40px 0;
+    font-size: 2.8em;
+    color: #2c1810;
+    font-weight: 700;
+}
+
+/* Style the upload section */
+.upload-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.file-input {
+    margin-bottom: 10px;
+}
+
+/* Style the submit button */
+.submit-button {
+    background-color: #d4a5a5;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.4);
+    background-color: #c48b8b;
+}
+
+/* Style the results section */
+.results {
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.alternatives-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.alternative-item {
+    background: white;
+    border-radius: 15px;
+    margin: 15px 0;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.alternative-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Style the footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #fce6e6;
+    color: #2c1810;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Style the navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 245, 245, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 40px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Style for the navbar title */
+.navbar-title {
+    color: #2c1810;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-right: auto;
+    padding-left: 15px;
+}
+
+/* Adjust the nav links */
+.nav-links {
+    list-style-type: none;
+    display: flex;
+    margin-left: auto;
+    gap: 30px;
+}
+
+.nav-links li a {
+    color: #5c4034;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1em;
+    padding: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #d4a5a5;
+    transition: all 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #2c1810;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.title-margin {
+    margin-top: 70px; /* Adjust this value based on your navbar height */
+}
+
+.give-it-a-go-content > * {
+  margin: 20px 0;
+}
+
+.nav-signout {
+    background: none;
+    border: none;
+    color: #5c4034;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.1em;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-signout::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #d4a5a5;
+    transition: all 0.3s ease;
+}
+
+.nav-signout:hover {
+    color: #2c1810;
+}
+
+.nav-signout:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.nav-username {
+    font-family: 'Montserrat', sans-serif;
+    color: #2c1810;
+    font-weight: 600;
+    padding: 10px;
+    background: rgba(212, 165, 165, 0.1);
+    border-radius: 20px;
+    margin-left: 10px;
+}

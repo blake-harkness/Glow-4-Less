@@ -1,0 +1,157 @@
+.settings-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.settings-content {
+    background: linear-gradient(135deg, #fce6e6 0%, #fff5f5 100%);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.settings-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8em;
+    color: #2c1810;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.profile-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #fce6e6;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #d4a5a5 0%, #c48b8b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2em;
+    color: white;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+}
+
+.profile-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    color: #2c1810;
+    margin: 0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.info-item {
+    background: #fff5f5;
+    padding: 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.1);
+}
+
+.info-item label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #5c4034;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    color: #2c1810;
+    margin: 0;
+    font-weight: 500;
+}
+
+.membership-tag {
+    display: inline-block;
+    background: #d4a5a5;
+    color: white !important;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em !important;
+}
+
+.usage-tag {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32 !important;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em !important;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.upgrade-button {
+    background: linear-gradient(135deg, #d4a5a5 0%, #c48b8b 100%);
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+}
+
+.upgrade-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.4);
+}
+
+.signout-button {
+    background: transparent;
+    color: #d4a5a5;
+    border: 2px solid #d4a5a5;
+    padding: 15px 35px;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signout-button:hover {
+    background: #d4a5a5;
+    color: white;
+    transform: translateY(-2px);
+} 

@@ -1,0 +1,347 @@
+/* General Container Styles */
+.home-container {
+    max-width: 1200px; /* Set a max width for the container */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding around the container */
+    background-color: #fff5f5;
+    color: #2c1810;
+    min-height: 100vh; /* Ensure it takes at least the full height of the viewport */
+}
+
+/* Section Styles */
+.section {
+    border: 1px solid #ccc; /* Border around each section */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside each section */
+    margin-bottom: 40px; /* Space below each section */
+    background-color: #fff; /* White background for sections */
+}
+
+/* Hero Section Styles */
+.hero-section {
+    text-align: center;
+    border: none;
+    border-radius: 15px;
+    padding: 4rem 2rem;
+    margin: 2rem 0;
+    background: linear-gradient(135deg, #fce6e6 0%, #fff5f5 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    color: #2c1810;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.4em;
+    color: #d4a5a5;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #5c4034;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.primary-button {
+    background-color: #d4a5a5;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+}
+
+.secondary-button {
+    background-color: transparent;
+    color: #d4a5a5;
+    border: 2px solid #d4a5a5;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.4);
+}
+
+.secondary-button:hover {
+    background-color: #d4a5a5;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.feature-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    color: #2c1810;
+    text-align: center;
+    margin: 60px 0 40px;
+}
+
+.deal-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    margin-bottom: 20px; /* Adjust this value for more or less spacing */
+}
+
+.deal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.deal-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.deal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.deal-category {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(212, 165, 165, 0.9);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-header img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.testimonial-quote {
+    font-style: italic;
+    color: #5c4034;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #fce6e6 0%, #fff5f5 100%);
+    border-radius: 15px;
+    padding: 60px 30px;
+    text-align: center;
+    margin: 60px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8em;
+    color: #2c1810;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #5c4034;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* How It Works Section */
+.how-it-works,
+.featured-deals,
+.pricing-plans,
+.testimonials,
+.cta-section {
+    margin-bottom: 60px; /* Space below each section */
+}
+
+.how-it-works-description,
+.featured-deals-description,
+.pricing-plans-description,
+.testimonials-description,
+.cta-description {
+    font-size: 1em; /* Standard font size for descriptions */
+    margin-bottom: 20px; /* Space below descriptions */
+}
+
+/* Steps Layout */
+.steps {
+    display: flex; /* Use flexbox for steps layout */
+    justify-content: space-around; /* Space out the steps */
+    margin-top: 20px; /* Space above the steps */
+}
+
+.step {
+    text-align: center; /* Center the text in each step */
+    margin: 0 10px; /* Add horizontal margin between steps */
+}
+
+/* Deals Grid Layout */
+.deals {
+    display: grid; /* Use grid for deals layout */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between deal items */
+    margin-top: 20px; /* Space above the deals */
+}
+
+.deal-item {
+    border: 1px solid #ccc; /* Border around each deal item */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside each deal item */
+    text-align: center; /* Center the text */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.deal-item:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Pricing Plan Styles */
+.plan {
+    border: 1px solid #ccc; /* Add a border around each plan */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside each plan */
+    text-align: center; /* Center the text */
+    margin: 10px; /* Margin around each plan */
+    transition: box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+.plan:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+}
+
+/* Review Styles */
+.review {
+    margin: 20px 0; /* Space above and below each review */
+    padding: 10px; /* Padding inside the review */
+    border-left: 4px solid #007BFF; /* Left border for emphasis */
+    background-color: #f9f9f9; /* Light background for reviews */
+}
+
+/* Call to Action Section Styles */
+.cta-section {
+    text-align: center; /* Center the text */
+    margin-top: 40px; /* Space above the CTA section */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+/* Join Button Styles */
+.join-button {
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size for the button */
+    background-color: #007BFF; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.join-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Loader Styles */
+.loader {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #3498db; /* Change to your desired color */
+    border-radius: 50%;
+    width: 16px; /* Size of the loader */
+    height: 16px; /* Size of the loader */
+    animation: spin 1s linear infinite; /* Spin animation */
+    display: inline-block; /* Align with text */
+    margin-left: 8px; /* Space between text and loader */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.features-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+.featured-deals {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+.testimonials-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+} 

@@ -1,0 +1,226 @@
+.pricing-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.pricing-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8em;
+    color: #2c1810;
+    margin-bottom: 15px;
+}
+
+.pricing-header p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #5c4034;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.pricing-card.popular {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+    border: 2px solid #d4a5a5;
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.pricing-card.popular:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #d4a5a5 0%, #c48b8b 100%);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fce6e6;
+    color: #d4a5a5;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.plan-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.plan-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2em;
+    color: #2c1810;
+    margin-bottom: 15px;
+}
+
+.price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+}
+
+.price .original {
+    color: #c48b8b;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.price .amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 3em;
+    color: #2c1810;
+}
+
+.price .period {
+    font-family: 'Montserrat', sans-serif;
+    color: #5c4034;
+}
+
+.plan-features {
+    margin: 30px 0;
+}
+
+.plan-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.plan-features li {
+    font-family: 'Montserrat', sans-serif;
+    color: #5c4034;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.plan-features li.disabled {
+    color: #c48b8b;
+    opacity: 0.7;
+}
+
+.plan-button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.basic-button {
+    background: transparent;
+    color: #d4a5a5;
+    border: 2px solid #d4a5a5;
+}
+
+.basic-button:hover {
+    background: #d4a5a5;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.popular-button {
+    background: linear-gradient(135deg, #d4a5a5 0%, #c48b8b 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+}
+
+.popular-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.4);
+}
+
+.premium-button {
+    background: linear-gradient(135deg, #2c1810 0%, #5c4034 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(44, 24, 16, 0.2);
+}
+
+.premium-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(44, 24, 16, 0.3);
+}
+
+.popular-note {
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #d4a5a5;
+}
+
+.pricing-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.pricing-footer p {
+    font-family: 'Montserrat', sans-serif;
+    color: #5c4034;
+    margin-bottom: 20px;
+}
+
+.guarantee-badges {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.guarantee-badges span {
+    font-family: 'Montserrat', sans-serif;
+    color: #2c1810;
+    background: #fff5f5;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9em;
+} 
