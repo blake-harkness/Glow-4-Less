@@ -76,6 +76,7 @@ const Login = () => {
     return (
         <div className="login-container">
             <h2>Begin Your Beauty Journey</h2>
+            <h3>Even if it says register failed, it likely worked. Check your email to verify and try logging in!</h3>
             {message && <p className="message success-message">{message}</p>}
             {errorMessage && <p className="message error-message">{errorMessage}</p>}
             <div className="form-container">
