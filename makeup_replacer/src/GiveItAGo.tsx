@@ -4,6 +4,7 @@ import './GiveItAGo.css';
 import { initializeOpenAI, getOpenAIInstance } from './services/openai';
 import { supabase } from './lib/supabase';
 import { incrementUsage, getRemainingUsage, getSubscription } from './services/subscription';
+import type { ChatCompletionContentPart } from 'openai/resources/chat/completions';
 
 // Complete list of countries
 const countries = [
@@ -29,6 +30,15 @@ const countries = [
   "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
 ];
 
+interface ChatMessage {
+  role: "user";
+  content: string | {
+    type: "text" | "image_url";
+    text?: string;
+    image_url?: { url: string };
+  }[];
+}
+
 const GiveItAGo = () => {
   const [image, setImage] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState('New Zealand');
@@ -36,6 +46,10 @@ const GiveItAGo = () => {
   const [alternatives, setAlternatives] = useState<string[]>([]);
   const [remainingUsage, setRemainingUsage] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const [searchMode, setSearchMode] = useState<'photo' | 'text'>('text');
+  const [productName, setProductName] = useState('');
+  const [customRequest, setCustomRequest] = useState('find me a...');
+  const [subscription, setSubscription] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -49,7 +63,9 @@ const GiveItAGo = () => {
           return;
         }
 
-        // Get remaining usage
+        // Get subscription and remaining usage
+        const userSubscription = await getSubscription(user.id);
+        setSubscription(userSubscription);
         const remaining = await getRemainingUsage(user.id);
         setRemainingUsage(remaining);
 
@@ -64,10 +80,7 @@ const GiveItAGo = () => {
       } catch (err) {
         console.error('Setup error:', err);
         setError('Failed to initialize the application.');
-      } finally {
-        setLoading(false); // Ensure loading is set to false here
       }
-      
     };
 
     setup();
@@ -85,7 +98,7 @@ const GiveItAGo = () => {
   };
 
   const handleSubmit = async () => {
-    if (!image || !selectedCountry) return;
+    if ((!image && searchMode === 'photo') || (!productName && searchMode === 'text') || !selectedCountry) return;
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -112,7 +125,6 @@ const GiveItAGo = () => {
     try {
       let openai = getOpenAIInstance();
       if (!openai) {
-        // Try to reinitialize OpenAI
         const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
         if (!apiKey) {
           throw new Error("OpenAI API key not found. Please check your environment variables.");
@@ -124,17 +136,37 @@ const GiveItAGo = () => {
         }
       }
 
+      let prompt = `You are an intelligent shopping assistant that helps users find cheaper alternatives to makeup products`;
+      if (searchMode === 'photo') {
+        prompt += ` by analyzing images`;
+      }
+      prompt += ` and finding availability in their country (${selectedCountry}).`;
+
+      if (subscription?.subscription_tier !== 'Basic' && customRequest && customRequest !== 'find me a...') {
+        prompt += ` The user has a specific request: "${customRequest}"`;
+      }
+
+      prompt += ` Return 3 different products their price listing them 1. 2. 3., a short description of why its good and a link to the google search for them.`;
+
+      const messages = [{
+        role: "user" as const,
+        content: searchMode === 'photo' 
+          ? [
+              { 
+                type: "text" as const, 
+                text: prompt 
+              } as ChatCompletionContentPart,
+              { 
+                type: "image_url" as const, 
+                image_url: { url: image! } 
+              } as ChatCompletionContentPart
+            ]
+          : prompt + ` The product name is: ${productName}`
+      }];
+
       const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: `You are an intelligent shopping assistant that helps users find cheaper alternatives to makeup products by analyzing images and finding availability in their country (${selectedCountry}). Return 3 different products their price listing them 1. 2. 3., a short description of why its good and a link to the google search for them.` },
-              { type: "image_url", image_url: { url: image } }
-            ],
-          },
-        ],
+        model: "gpt-4-mini",
+        messages,
         max_tokens: 1000,
       });
 
@@ -142,7 +174,6 @@ const GiveItAGo = () => {
         const alternatives = response.choices[0].message.content.split(/\d+\.\s+/).filter(line => line.trim() !== "");
         
         if (alternatives.length > 0) {
-          // First increment usage and update the remaining count
           const success = await incrementUsage(user.id);
           if (success) {
             const remaining = await getRemainingUsage(user.id);
@@ -151,13 +182,12 @@ const GiveItAGo = () => {
             throw new Error("Failed to update usage count. Please try again.");
           }
           
-          // Only set alternatives after successful usage increment
           setAlternatives(alternatives);
         } else {
-          throw new Error("No valid alternatives found. Please try again with a clearer image.");
+          throw new Error("No valid alternatives found. Please try again with a clearer image or product name.");
         }
       } else {
-        throw new Error("No alternatives found. Please try again with a clearer image.");
+        throw new Error("No alternatives found. Please try again with a clearer image or product name.");
       }
     } catch (err: any) {
       console.error('Error:', err);
@@ -168,18 +198,18 @@ const GiveItAGo = () => {
   };
 
   const formatOutput = (text: string) => {
-    // Convert new lines to <br /> and make links clickable
     return text
-      .replace(/(\*\*(.*?)\*\*)/g, '<strong>$2</strong>') // Bold text
-      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>') // Links
-      .replace(/\n/g, '<br /><br />'); // New lines with extra space
+      .replace(/(\*\*(.*?)\*\*)/g, '<strong>$2</strong>')
+      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\n/g, '<br /><br />');
   };
+
+  const isCustomRequestEnabled = subscription?.subscription_tier === 'Glow' || subscription?.subscription_tier === 'Premium';
 
   return (
     <div className="give-it-a-go-content">
       <h2>Find Your Perfect Match</h2>
-      <p>Upload a photo of your favorite makeup product and discover affordable alternatives available in your region.</p>
-      <p>Our AI-powered system will analyze your product and suggest the best matches for your beauty needs.</p>
+      <p>Discover affordable alternatives to your favorite beauty products available in your region.</p>
       
       {remainingUsage > 0 ? (
         <p className="usage-info">
@@ -203,14 +233,55 @@ const GiveItAGo = () => {
         </div>
       )}
 
-      <div className="button-group">
+      <div className="search-options">
         <button 
-          className="submit-button" 
-          onClick={() => fileInputRef.current?.click()}
-          disabled={remainingUsage <= 0}
+          className={`search-option ${searchMode === 'text' ? 'active' : ''}`}
+          onClick={() => setSearchMode('text')}
         >
-          Choose Product Photo
+          Search by Name
         </button>
+        <button 
+          className={`search-option ${searchMode === 'photo' ? 'active' : ''}`}
+          onClick={() => setSearchMode('photo')}
+        >
+          Search by Photo
+        </button>
+      </div>
+
+      <div className="search-section">
+        {searchMode === 'text' ? (
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Enter product name"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+            disabled={remainingUsage <= 0}
+          />
+        ) : (
+          <button 
+            className="submit-button" 
+            onClick={() => fileInputRef.current?.click()}
+            disabled={remainingUsage <= 0}
+          >
+            Choose Product Photo
+          </button>
+        )}
+
+        <div className="custom-request">
+          {isCustomRequestEnabled && (
+            <span className="custom-request-badge">Glow Feature</span>
+          )}
+          <input
+            type="text"
+            className="search-input"
+            placeholder="find me a..."
+            value={customRequest}
+            onChange={(e) => setCustomRequest(e.target.value)}
+            disabled={!isCustomRequestEnabled || remainingUsage <= 0}
+          />
+        </div>
+
         <div className="country-selection">
           <input
             list="countries"
@@ -236,7 +307,7 @@ const GiveItAGo = () => {
         onChange={handleFileChange}
       />
 
-      {image && (
+      {image && searchMode === 'photo' && (
         <div className="preview-container">
           <img
             src={image}
@@ -248,7 +319,13 @@ const GiveItAGo = () => {
       <button 
         className="submit-button" 
         onClick={handleSubmit}
-        disabled={!image || !selectedCountry || remainingUsage <= 0 || loading}
+        disabled={
+          (searchMode === 'photo' && !image) || 
+          (searchMode === 'text' && !productName) || 
+          !selectedCountry || 
+          remainingUsage <= 0 || 
+          loading
+        }
       >
         {loading ? 'Processing...' : 'Find Alternatives'}
       </button>

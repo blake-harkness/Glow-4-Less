@@ -73,6 +73,15 @@ const Login = () => {
         }
     };
 
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Error logging out:', error.message);
+        } else {
+            navigate('/');
+        }
+    };
+
     return (
         <div className="login-container">
             <h2>Begin Your Beauty Journey</h2>
@@ -124,6 +133,7 @@ const Login = () => {
                     <button type="submit" className="register-button">Register</button>
                 </form>
             </div>
+            <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
     );
 };

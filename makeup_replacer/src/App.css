@@ -163,6 +163,7 @@ input[type="file"] {
 .navbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: rgba(255, 245, 245, 0.95);
     backdrop-filter: blur(10px);
     padding: 15px 40px;
@@ -189,6 +190,7 @@ input[type="file"] {
     display: flex;
     margin-left: auto;
     gap: 30px;
+    align-items: center;
 }
 
 .nav-links li a {
@@ -199,6 +201,7 @@ input[type="file"] {
     padding: 10px;
     transition: all 0.3s ease;
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-links li a::after {
@@ -270,4 +273,98 @@ input[type="file"] {
     background: rgba(212, 165, 165, 0.1);
     border-radius: 20px;
     margin-left: 10px;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #2c1810;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .nav-links li a {
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+    
+    .navbar-title {
+        font-size: 1.5em;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        flex-direction: column;
+        background: rgba(255, 245, 245, 0.98);
+        width: 100%;
+        max-width: 300px;
+        height: calc(100vh - 70px);
+        padding: 20px;
+        gap: 15px;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-links li {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .nav-links li a {
+        display: block;
+        padding: 15px;
+        width: 100%;
+    }
+    
+    .nav-username {
+        text-align: center;
+        padding: 15px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .navbar {
+        padding: 10px;
+    }
+    
+    .navbar-title {
+        font-size: 1.3em;
+    }
+    
+    .nav-links {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
 }

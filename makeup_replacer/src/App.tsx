@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, } from 'react-router-dom';
 import './App.css';
 import Login from './Login';
@@ -11,6 +11,7 @@ import { supabase } from './lib/supabase'; // Import Supabase client
 const App = () => {
   const [alternatives] = React.useState<string[]>([]);
   const [user, setUser] = React.useState<any>(null); // State to hold user information
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   React.useEffect(() => {
     const fetchSession = async () => {
@@ -44,23 +45,36 @@ const App = () => {
       <div>
         <nav className="navbar">
           <div className="navbar-title">Glow 4 Less</div>
-          <ul className="nav-links">
+          <button 
+            className="mobile-menu-btn" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? '✕' : '☰'}
+          </button>
+          <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             <li>
-              <Link to="/home">Home</Link>
+              <Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link>
             </li>
             <li>
-              <Link to="/pricing">Pricing</Link>
+              <Link to="/pricing" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
             </li>
             {user ? (
               <>
                 <li>
-                  <Link to="/give-it-a-go">Give It a Go</Link>
+                  <Link to="/give-it-a-go" onClick={() => setIsMenuOpen(false)}>Give It a Go</Link>
                 </li>
                 <li>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/settings" onClick={() => setIsMenuOpen(false)}>Settings</Link>
                 </li>
                 <li>
-                  <button onClick={handleSignOut} className="nav-signout">
+                  <button 
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }} 
+                    className="nav-signout"
+                  >
                     Sign Out
                   </button>
                 </li>
@@ -70,7 +84,7 @@ const App = () => {
               </>
             ) : (
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
               </li>
             )}
           </ul>

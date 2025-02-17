@@ -2,6 +2,7 @@
     max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
+    width: 100%;
 }
 
 .pricing-header {
@@ -223,4 +224,98 @@
     padding: 10px 20px;
     border-radius: 20px;
     font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .pricing-container {
+        padding: 15px;
+    }
+    
+    .pricing-grid {
+        gap: 20px;
+    }
+    
+    .pricing-card {
+        padding: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pricing-header h2 {
+        font-size: 2.2em;
+    }
+    
+    .pricing-header p {
+        font-size: 1.1em;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 0 15px;
+    }
+    
+    .pricing-card.popular {
+        transform: scale(1);
+    }
+    
+    .pricing-card.popular:hover {
+        transform: translateY(-5px);
+    }
+    
+    .plan-header h3 {
+        font-size: 1.8em;
+    }
+    
+    .price .amount {
+        font-size: 2.5em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .pricing-container {
+        margin: 20px auto;
+    }
+    
+    .pricing-header {
+        margin-bottom: 40px;
+    }
+    
+    .pricing-header h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    
+    .pricing-header p {
+        font-size: 1em;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+    .pricing-card {
+        padding: 25px;
+    }
+    
+    .plan-header h3 {
+        font-size: 1.6em;
+    }
+    
+    .price .amount {
+        font-size: 2.2em;
+    }
+    
+    .plan-features li {
+        font-size: 0.9em;
+        margin: 12px 0;
+    }
+    
+    .plan-button {
+        padding: 12px;
+        font-size: 1em;
+    }
 } 
