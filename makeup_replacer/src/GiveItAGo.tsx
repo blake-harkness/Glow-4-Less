@@ -30,6 +30,15 @@ const countries = [
   "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
 ];
 
+interface ChatMessage {
+  role: "user";
+  content: string | {
+    type: "text" | "image_url";
+    text?: string;
+    image_url?: { url: string };
+  }[];
+}
+
 const GiveItAGo = () => {
   const [image, setImage] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState('New Zealand');

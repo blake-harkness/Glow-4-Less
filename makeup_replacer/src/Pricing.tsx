@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Pricing = () => {
     const [user, setUser] = React.useState<any>(null);
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<string | null>(null);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -15,25 +17,65 @@ const Pricing = () => {
         fetchUser();
     }, []);
 
-    const handleSubscribe = () => {
+    const handleSubscribe = async (priceId: string) => {
         if (!user) {
             navigate('/login');
             return;
+        }
+
+        if (priceId === 'price_missing') {
+            setError('Subscription price not configured. Please contact support.');
+            return;
+        }
+    
+        try {
+            setLoading(true);
+            setError(null);
+            
+            const response = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    priceId,
+                    userId: user.id,
+                    userEmail: user.email
+                }),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to create checkout session');
+            }
+    
+            const session = await response.json();
+            window.location.href = session.url;
+        } catch (error) {
+            console.error('Error:', error);
+            setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="pricing-container">
+            {error && (
+                <div className="error-message" style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>
+                    {error}
+                </div>
+            )}
             <div className="pricing-header">
-                <h2>Choose Your Glow Plan</h2>
+                <h2>Choose Your Glow Up Plan</h2>
                 <p>Find your perfect match with our flexible pricing options</p>
             </div>
 
             <div className="pricing-grid">
                 {/* Basic Plan */}
-                <div className="pricing-card">
+                <div className="pricing-card basic">
                     <div className="plan-header">
-                        <h3>Basic</h3>
+                        <h3>Basic Glow</h3>
                         <div className="price">
                             <span className="amount">$0</span>
                             <span className="period">/month</span>
@@ -41,19 +83,19 @@ const Pricing = () => {
                     </div>
                     <div className="plan-features">
                         <ul>
-                            <li>✨ 2 Product Matches per Month</li>
+                            <li>✨ 3 Product Matches per Month</li>
                             <li>✨ Basic Product Analysis</li>
                             <li>✨ Email Support</li>
                             <li className="disabled">❌ Priority Processing</li>
-                            <li className="disabled">❌ Smart Recommendations</li>
+                            <li className="disabled">❌ Advanced Recommendations</li>
                             <li className="disabled">❌ Price Tracking</li>
                         </ul>
                     </div>
                     <button 
                         className="plan-button basic-button"
-                        onClick={handleSubscribe}
+                        onClick={() => navigate('/give-it-a-go')}
                     >
-                        Get Started
+                        Start Free
                     </button>
                 </div>
 
@@ -81,9 +123,10 @@ const Pricing = () => {
                     </div>
                     <button 
                         className="plan-button popular-button"
-                        onClick={handleSubscribe}
+                        onClick={() => handleSubscribe(import.meta.env.VITE_STRIPE_GLOW_PRICE_ID || 'price_missing')}
+                        disabled={loading}
                     >
-                        Get Started
+                        {loading ? 'Processing...' : 'Get Started'}
                     </button>
                     <p className="popular-note">⭐ Most chosen by beauty enthusiasts</p>
                 </div>
@@ -111,9 +154,10 @@ const Pricing = () => {
                     </div>
                     <button 
                         className="plan-button premium-button"
-                        onClick={handleSubscribe}
+                        onClick={() => handleSubscribe(import.meta.env.VITE_STRIPE_PREMIUM_PRICE_ID || 'price_missing')}
+                        disabled={loading}
                     >
-                        Go Premium
+                        {loading ? 'Processing...' : 'Go Premium'}
                     </button>
                 </div>
             </div>
