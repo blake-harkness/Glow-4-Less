@@ -43,6 +43,7 @@ const Login = () => {
             const subscription = await createOrUpdateSubscription(data.user.id, 'Basic');
             
             if (!subscription) {
+                setMessage('Registration failed: Unable to create subscription. Please try again.');
                 return;
             }
 
