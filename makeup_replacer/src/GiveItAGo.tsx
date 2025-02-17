@@ -30,15 +30,6 @@ const countries = [
   "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
 ];
 
-interface ChatMessage {
-  role: "user";
-  content: string | {
-    type: "text" | "image_url";
-    text?: string;
-    image_url?: { url: string };
-  }[];
-}
-
 const GiveItAGo = () => {
   const [image, setImage] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState('New Zealand');
@@ -165,7 +156,7 @@ const GiveItAGo = () => {
       }];
 
       const response = await openai.chat.completions.create({
-        model: "gpt-4-mini",
+        model: "gpt-4o-mini",
         messages,
         max_tokens: 1000,
       });
