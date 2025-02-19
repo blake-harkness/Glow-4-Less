@@ -158,7 +158,7 @@ const Home = () => {
                             avatar: '/images/testimonial-2.jpg',
                             name: 'Reyna Harkness',
                             role: 'Student',
-                            quote: 'As a professional makeup artist, I love recommending this to clients who want quality products within their budget.',
+                            quote: 'As a professional makeup artiste, I love recommending this to clients who want quality products within their budget.',
                             rating: 5
                         }
                     ].map((testimonial, index) => (
