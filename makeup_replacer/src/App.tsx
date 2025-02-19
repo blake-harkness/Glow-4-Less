@@ -6,10 +6,10 @@ import Home from './Home';
 import GiveItAGo from './GiveItAGo';
 import Settings from './Settings';
 import Pricing from './Pricing';
+import Support from './Support';
 import { supabase } from './lib/supabase'; // Import Supabase client
 
 const App = () => {
-  const [alternatives] = React.useState<string[]>([]);
   const [user, setUser] = React.useState<any>(null); // State to hold user information
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -54,10 +54,13 @@ const App = () => {
           </button>
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             <li>
-              <Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link>
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
             </li>
             <li>
               <Link to="/pricing" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
+            </li>
+            <li>
+              <Link to="/support" onClick={() => setIsMenuOpen(false)}>Support</Link>
             </li>
             {user ? (
               <>
@@ -90,26 +93,12 @@ const App = () => {
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={
-            <>
-              <h1 className="app-title">Makeup Product Alternatives Finder</h1>
-              {/* Removed upload section and button */}
-              <div className="results">
-                {alternatives.length > 0 && (
-                  <ul className="alternatives-list">
-                    {alternatives.map((alt, index) => (
-                      <li key={index} className="alternative-item">{alt}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </>
-          } />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/give-it-a-go" element={<GiveItAGo />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
         <footer className="footer">
           <p>&copy; 2025 Glow 4 Less. All rights reserved.</p>

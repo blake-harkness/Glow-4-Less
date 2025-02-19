@@ -148,15 +148,17 @@ input[type="file"] {
 
 /* Style the footer */
 .footer {
-    text-align: center;
+    background-color: white;
     padding: 20px;
-    background-color: #fce6e6;
-    color: #2c1810;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.footer p {
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.05);
+    color: #5c4034;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
 }
 
 /* Style the navbar */

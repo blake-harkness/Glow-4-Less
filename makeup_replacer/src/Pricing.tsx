@@ -87,8 +87,8 @@ const Pricing = () => {
                             <li>✨ Basic Product Analysis</li>
                             <li>✨ Email Support</li>
                             <li className="disabled">❌ Priority Processing</li>
-                            <li className="disabled">❌ Advanced Recommendations</li>
-                            <li className="disabled">❌ Price Tracking</li>
+                            <li className="disabled">❌ Customisable Search</li>
+                            <li className="disabled">❌ Early Access Features</li>
                         </ul>
                     </div>
                     <button 
@@ -113,12 +113,12 @@ const Pricing = () => {
                     </div>
                     <div className="plan-features">
                         <ul>
-                            <li>✨ 40 Product Matches per Month</li>
+                            <li>✨ 30 Product Matches per Month</li>
                             <li>✨ Advanced Product Analysis</li>
                             <li>✨ Priority Email Support</li>
                             <li>✨ Priority Processing</li>
-                            <li>✨ Smart Recommendations</li>
-                            <li className="disabled">❌ Price Tracking</li>
+                            <li>✨ Customisable Search</li>
+                            <li className="disabled">❌ Early Access Features</li>
                         </ul>
                     </div>
                     <button 
@@ -146,10 +146,10 @@ const Pricing = () => {
                         <ul>
                             <li>✨ Unlimited Product Matches</li>
                             <li>✨ Premium Product Analysis</li>
-                            <li>✨ 24/7 Priority Support</li>
+                            <li>✨ Priority Email Support</li>
                             <li>✨ Instant Processing</li>
-                            <li>✨ AI-Powered Recommendations</li>
-                            <li>✨ Real-time Price Tracking</li>
+                            <li>✨ Customisable Search</li>
+                            <li>✨ Early Access Features</li>
                         </ul>
                     </div>
                     <button 
@@ -159,15 +159,6 @@ const Pricing = () => {
                     >
                         {loading ? 'Processing...' : 'Go Premium'}
                     </button>
-                </div>
-            </div>
-
-            <div className="pricing-footer">
-                <p>All plans include our satisfaction guarantee. Cancel anytime.</p>
-                <div className="guarantee-badges">
-                    <span>🔒 Secure Payment</span>
-                    <span>💎 Premium Support</span>
-                    <span>⭐ Money-back Guarantee</span>
                 </div>
             </div>
         </div>

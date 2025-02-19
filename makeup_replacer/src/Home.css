@@ -225,7 +225,7 @@
 .pricing-plans-description,
 .testimonials-description,
 .cta-description {
-    font-size: 1em; /* Standard font size for descriptions */
+    font-size: 3em; /* Standard font size for descriptions */
     margin-bottom: 20px; /* Space below descriptions */
 }
 

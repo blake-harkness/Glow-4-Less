@@ -8,6 +8,8 @@ const Settings = () => {
     const [user, setUser] = React.useState<any>(null);
     const [subscription, setSubscription] = React.useState<UserSubscription | null>(null);
     const [remainingUsage, setRemainingUsage] = React.useState<number>(0);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -39,6 +41,46 @@ const Settings = () => {
         navigate('/pricing');
     };
 
+    const handleCancelSubscription = async () => {
+        if (!subscription?.stripe_subscription_id) {
+            setError('No active subscription found');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await fetch('/api/cancel-subscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    subscriptionId: subscription.stripe_subscription_id,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to cancel subscription');
+            }
+
+            // Refresh subscription data
+            if (user) {
+                const sub = await getSubscription(user.id);
+                setSubscription(sub);
+            }
+
+            // Show success message or handle UI updates
+        } catch (error) {
+            console.error('Error:', error);
+            setError(error instanceof Error ? error.message : 'Failed to cancel subscription');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (!user) {
         return <div className="settings-container">Loading...</div>;
     }
@@ -47,6 +89,12 @@ const Settings = () => {
         <div className="settings-container">
             <div className="settings-content">
                 <h2>Account Settings</h2>
+                
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
                 
                 <div className="profile-section">
                     <div className="profile-header">
@@ -87,6 +135,15 @@ const Settings = () => {
                         {subscription?.subscription_tier !== 'Glow Premium' && (
                             <button onClick={handleUpgrade} className="upgrade-button">
                                 Upgrade to {subscription?.subscription_tier === 'Glow' ? 'Premium' : 'Glow'}
+                            </button>
+                        )}
+                        {subscription?.subscription_tier !== 'Basic' && (
+                            <button 
+                                onClick={handleCancelSubscription} 
+                                className="cancel-button"
+                                disabled={loading}
+                            >
+                                {loading ? 'Canceling...' : 'Cancel Subscription'}
                             </button>
                         )}
                         <button onClick={handleSignOut} className="signout-button">Sign Out</button>

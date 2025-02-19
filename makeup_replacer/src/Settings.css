@@ -154,4 +154,42 @@
     background: #d4a5a5;
     color: white;
     transform: translateY(-2px);
+}
+
+.cancel-button {
+    background: transparent;
+    color: #e57373;
+    border: 2px solid #e57373;
+    padding: 15px 35px;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-button:hover:not(:disabled) {
+    background: #e57373;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.cancel-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 } 

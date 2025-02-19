@@ -10,6 +10,7 @@ export interface UserSubscription {
   last_usage_reset: string;
   created_at: string;
   updated_at: string;
+  stripe_subscription_id?: string;
 }
 
 export const getSubscription = async (userId: string): Promise<UserSubscription | null> => {
