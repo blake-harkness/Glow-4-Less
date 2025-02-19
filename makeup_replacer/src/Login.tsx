@@ -18,7 +18,7 @@ const Login = () => {
         e.preventDefault();
         try {
             // Register the user
-            const { data, error } = await supabase.auth.signUp({
+            const { data } = await supabase.auth.signUp({
                 email: registerEmail,
                 password: registerPassword,
                 options: {
@@ -27,12 +27,6 @@ const Login = () => {
                     },
                 },
             });
-
-            if (error) {
-                console.error('Error registering:', error);
-                setMessage(`Registration failed: ${error.message}`);
-                return;
-            }
 
             if (!data.user) {
                 setMessage('Registration failed: No user data returned');
