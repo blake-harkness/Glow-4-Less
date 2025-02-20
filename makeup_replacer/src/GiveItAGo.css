@@ -129,6 +129,8 @@
   font-family: 'Montserrat', sans-serif;
   color: #5c4034;
   line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .alternative-item:hover {
@@ -146,6 +148,9 @@
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
+  word-break: break-all;
+  display: inline-block;
+  max-width: 100%;
 }
 
 .alternative-item a:hover {
@@ -325,17 +330,63 @@ input:disabled {
 }
 
 @media screen and (max-width: 768px) {
-  .search-section {
-    padding: 0 15px;
+  .give-it-a-go-content {
+    margin: 20px 10px;
+    padding: 20px;
   }
-  
+
+  .give-it-a-go-content h2 {
+    font-size: 2em;
+  }
+
+  .search-section {
+    padding: 0 10px;
+  }
+
   .search-options {
     flex-direction: column;
-    align-items: center;
+    width: 100%;
   }
-  
+
   .search-option {
     width: 100%;
-    max-width: 300px;
+  }
+
+  .alternative-item {
+    padding: 15px;
+    font-size: 0.95em;
+  }
+
+  .preview-container {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .preview-container img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .usage-warning,
+  .error-message {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .give-it-a-go-content {
+    margin: 10px 5px;
+    padding: 15px;
+  }
+
+  .give-it-a-go-content h2 {
+    font-size: 1.8em;
+  }
+
+  .alternative-item {
+    padding: 12px;
+    font-size: 0.9em;
   }
 }
