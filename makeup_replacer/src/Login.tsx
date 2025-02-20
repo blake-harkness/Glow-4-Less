@@ -2,7 +2,6 @@ import './Login.css';
 import { useState } from 'react';
 import { supabase } from './lib/supabase'
 import { useNavigate } from 'react-router-dom';
-import { createOrUpdateSubscription } from './services/subscription';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -27,18 +26,6 @@ const Login = () => {
                     },
                 },
             });
-
-            if (!data.user) {
-                setMessage('Registration failed: No user data returned');
-                return;
-            }
-
-            // Create a basic subscription for the new user
-            const subscription = await createOrUpdateSubscription(data.user.id, 'Basic');
-            
-            if (!subscription) {
-                return;
-            }
 
             console.log('User registered:', data.user);
             setMessage('Registration successful! Please confirm your email before logging in.');
@@ -79,7 +66,6 @@ const Login = () => {
     return (
         <div className="login-container">
             <h2>Begin Your Beauty Journey</h2>
-            <h3>Even if it says register failed, it likely worked. Check your email to verify and try logging in!</h3>
             {message && <p className="message success-message">{message}</p>}
             {errorMessage && <p className="message error-message">{errorMessage}</p>}
             <div className="form-container">
