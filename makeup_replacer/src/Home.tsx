@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import makeupImage from './images/makeup-cosmetics.png';
 import skincareImage from './images/hikoco_blog_skincare.png';
 import haircareImage from './images/banner__78148.original.png';
+import quote1 from './images/quote1.jpg';
+import quote2 from './images/quote2.jpg';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -148,17 +150,17 @@ const Home = () => {
                 <div className="testimonials-grid">
                     {[
                         {
-                            avatar: '/images/quote1.jpg',
+                            avatar: quote1,
                             name: 'Dannielle Innes',
                             role: 'Beauty Enthusiast',
-                            quote: 'I found dupes for all of my expensive skin care. This product has saved me $100+ a month!',
+                            quote: '"I found dupes for all of my expensive skin care"',
                             rating: 5
                         },
                         {
-                            avatar: '/images/testimonial-2.jpg',
-                            name: 'Reyna Harkness',
-                            role: 'Student',
-                            quote: 'As a professional makeup artiste, I love recommending this to clients who want quality products within their budget.',
+                            avatar: quote2,
+                            name: 'Test Test',
+                            role: 'University Student',
+                            quote: '"As a student, finding alternative products has helped me save money"',
                             rating: 5
                         }
                     ].map((testimonial, index) => (
