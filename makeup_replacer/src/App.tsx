@@ -8,6 +8,7 @@ import Settings from './Settings';
 import Pricing from './Pricing';
 import Support from './Support';
 import { supabase } from './lib/supabase'; // Import Supabase client
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
   const [user, setUser] = React.useState<any>(null); // State to hold user information
@@ -43,6 +44,7 @@ const App = () => {
   return (
     <Router>
       <div>
+      <Analytics />
         <nav className="navbar">
           <div className="navbar-title">Glow 4 Less</div>
           <button 
