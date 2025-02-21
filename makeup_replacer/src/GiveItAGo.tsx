@@ -402,19 +402,19 @@ const GiveItAGo = () => {
 
                 return (
                   <tr key={index} className={isOriginalProduct ? 'original-product' : ''}>
-                    <td className="product-name">
+                    <td className="product-name" data-label="Product">
                       <div className="product-name-container">
                         <span>{productName}</span>
                         {isOriginalProduct && <span className="current-product-badge">Current Product</span>}
                       </div>
                     </td>
-                    <td className="product-price">
+                    <td className="product-price" data-label="Price">
                       {price}
                     </td>
-                    <td className="product-description">
+                    <td className="product-description" data-label="Description">
                       {description}
                     </td>
-                    <td>
+                    <td data-label="Link">
                       {!isOriginalProduct ? (
                         <a 
                           href={searchUrl}

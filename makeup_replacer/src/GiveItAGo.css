@@ -418,26 +418,69 @@ input:disabled {
     width: 100%;
   }
 
-  .alternative-item {
-    padding: 15px;
-    font-size: 0.95em;
+  .comparison-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    margin: 10px 0;
   }
 
-  .preview-container {
-    margin: 20px 10px;
-    padding: 15px;
+  .comparison-table thead {
+    display: none;
   }
 
-  .preview-container img {
-    max-width: 100%;
-    height: auto;
+  .comparison-table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #f0e6e6;
+    border-radius: 8px;
+    background: white;
   }
 
-  .usage-warning,
-  .error-message {
-    flex-direction: column;
-    text-align: center;
-    padding: 15px;
+  .comparison-table td {
+    display: block;
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0e6e6;
+    position: relative;
+    padding-left: 45%;
+    white-space: normal;
+  }
+
+  .comparison-table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 40%;
+    padding-right: 10px;
+    font-weight: 600;
+    color: #2c1810;
+    text-transform: uppercase;
+    font-size: 0.85em;
+  }
+
+  .comparison-table td:last-child {
+    border-bottom: none;
+  }
+
+  .product-name-container {
+    padding-left: 0;
+    margin-left: -45%;
+    width: calc(100% + 45%);
+  }
+
+  .current-product-badge {
+    margin: 5px 0;
+  }
+
+  .product-link {
+    display: inline-block;
+    margin-top: 5px;
+  }
+
+  .original-product td {
+    background: #fdf4f4;
   }
 }
 
@@ -451,9 +494,13 @@ input:disabled {
     font-size: 1.8em;
   }
 
-  .alternative-item {
-    padding: 12px;
-    font-size: 0.9em;
+  .comparison-table td {
+    padding-left: 50%;
+  }
+
+  .product-name-container {
+    margin-left: -50%;
+    width: calc(100% + 50%);
   }
 }
 
