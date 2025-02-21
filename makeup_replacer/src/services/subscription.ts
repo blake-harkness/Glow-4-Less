@@ -64,34 +64,34 @@ export const incrementUsage = async (userId: string): Promise<boolean> => {
   const subscription = await getSubscription(userId);
   if (!subscription) return false;
 
-  const usageKey = `${userId}_monthly_usage`;
-  const resetKey = `${userId}_last_usage_reset`;
-
-  // Get usage count and last reset date from localStorage
-  let monthlyUsage = parseInt(localStorage.getItem(usageKey) || '0', 10);
-  const lastReset = new Date(localStorage.getItem(resetKey) || '1970-01-01T00:00:00Z');
-  const currentDate = new Date();
-
-  // Determine if we should reset the usage count
-  const shouldReset = lastReset.getMonth() !== currentDate.getMonth() ||
-                      lastReset.getFullYear() !== currentDate.getFullYear();
-
-  if (shouldReset) {
-    monthlyUsage = 0;
-    localStorage.setItem(resetKey, currentDate.toISOString());
-  }
-
   // Get usage limit based on tier
   const usageLimit = getUsageLimit(subscription.subscription_tier);
 
   // Check if user has reached their limit
-  if (monthlyUsage >= usageLimit) {
+  if (subscription.monthly_usage >= usageLimit) {
     return false;
   }
 
-  // Increment usage count and update localStorage
-  monthlyUsage += 1;
-  localStorage.setItem(usageKey, monthlyUsage.toString());
+  // Check if we need to reset monthly usage (new month)
+  const lastReset = new Date(subscription.last_usage_reset);
+  const currentDate = new Date();
+  const shouldReset = lastReset.getMonth() !== currentDate.getMonth() ||
+                     lastReset.getFullYear() !== currentDate.getFullYear();
+
+  // Update the usage in Supabase
+  const { error } = await supabase
+    .from('user_subscriptions')
+    .update({
+      monthly_usage: shouldReset ? 1 : subscription.monthly_usage + 1,
+      last_usage_reset: shouldReset ? currentDate.toISOString() : subscription.last_usage_reset,
+      updated_at: currentDate.toISOString()
+    })
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error updating usage:', error);
+    return false;
+  }
 
   return true;
 };
@@ -113,25 +113,32 @@ export const getRemainingUsage = async (userId: string): Promise<number> => {
   const subscription = await getSubscription(userId);
   if (!subscription) return 0;
 
-  const usageKey = `${userId}_monthly_usage`;
-  const resetKey = `${userId}_last_usage_reset`;
-
-  // Get usage count and last reset date from localStorage
-  let monthlyUsage = parseInt(localStorage.getItem(usageKey) || '0', 10);
-  const lastReset = new Date(localStorage.getItem(resetKey) || '1970-01-01T00:00:00Z');
-  const currentDate = new Date();
-
-  // Determine if we should reset the usage count
-  const shouldReset = lastReset.getMonth() !== currentDate.getMonth() ||
-                      lastReset.getFullYear() !== currentDate.getFullYear();
-
   const usageLimit = getUsageLimit(subscription.subscription_tier);
   if (usageLimit === Infinity) return Infinity;
 
+  // Check if we need to reset monthly usage (new month)
+  const lastReset = new Date(subscription.last_usage_reset);
+  const currentDate = new Date();
+  const shouldReset = lastReset.getMonth() !== currentDate.getMonth() ||
+                     lastReset.getFullYear() !== currentDate.getFullYear();
+
   if (shouldReset) {
-    monthlyUsage = 0;
-    localStorage.setItem(resetKey, currentDate.toISOString());
+    // Reset the usage count in Supabase
+    const { error } = await supabase
+      .from('user_subscriptions')
+      .update({
+        monthly_usage: 0,
+        last_usage_reset: currentDate.toISOString(),
+        updated_at: currentDate.toISOString()
+      })
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error resetting usage:', error);
+      return Math.max(0, usageLimit - subscription.monthly_usage);
+    }
+    return usageLimit;
   }
 
-  return Math.max(0, usageLimit - monthlyUsage);
+  return Math.max(0, usageLimit - subscription.monthly_usage);
 }; 
