@@ -41,6 +41,7 @@ const GiveItAGo = () => {
   const [productName, setProductName] = useState('');
   const [customRequest, setCustomRequest] = useState('find me a...');
   const [subscription, setSubscription] = useState<any>(null);
+  const [numAlternatives, setNumAlternatives] = useState<number>(3);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -88,6 +89,10 @@ const GiveItAGo = () => {
     }
   };
 
+  const getGoogleSearchUrl = (productName: string) => {
+    return `https://www.google.com/search?q=${encodeURIComponent(productName)}`;
+  };
+
   const handleSubmit = async () => {
     if ((!image && searchMode === 'photo') || (!productName && searchMode === 'text') || !selectedCountry) return;
 
@@ -133,11 +138,20 @@ const GiveItAGo = () => {
       }
       prompt += ` and finding availability in their country (${selectedCountry}).`;
 
-      if (subscription?.subscription_tier !== 'Basic' && customRequest && customRequest !== 'find me a...') {
-        prompt += ` The user has a specific request: "${customRequest}"`;
+      if (searchMode === 'text') {
+        prompt += ` First, analyze and provide information about the original product "${productName}" in this exact format:
+        ORIGINAL: **${productName}** - $Price - Description
+
+        Then, provide exactly ${numAlternatives} more affordable alternatives in this format (one per line):
+        **[Product Name]** - $XX.XX - Why it's good: [explanation]`;
+      } else {
+        prompt += ` Analyze the image and provide exactly ${numAlternatives} affordable alternatives in this format (one per line):
+        **[Product Name]** - $XX.XX - Why it's good: [explanation]`;
       }
 
-      prompt += ` Return 3 different products their price listing them 1. 2. 3., a short description of why its good and a link to the google search for them.`;
+      if (subscription?.subscription_tier !== 'Basic' && customRequest && customRequest !== 'find me a...') {
+        prompt += `\n\nPlease consider this specific request when finding alternatives: "${customRequest}"`;
+      }
 
       const messages = [{
         role: "user" as const,
@@ -162,7 +176,24 @@ const GiveItAGo = () => {
       });
 
       if (response?.choices?.[0]?.message?.content) {
-        const alternatives = response.choices[0].message.content.split(/\d+\.\s+/).filter(line => line.trim() !== "");
+        let content = response.choices[0].message.content;
+        let originalProduct = null;
+        let alternatives: string[] = [];
+
+        // Extract original product info if searching by text
+        if (searchMode === 'text') {
+          const originalMatch = content.match(/ORIGINAL:\s*(.*?)(?=\n\n|\n(?=\*\*)|$)/);
+          if (originalMatch) {
+            originalProduct = originalMatch[1].trim();
+            // Remove the original product info from content
+            content = content.replace(/ORIGINAL:.*?(?=\n\n|\n(?=\*\*)|$)/, '').trim();
+          }
+        }
+
+        // Split remaining content into alternatives, excluding empty lines
+        alternatives = content
+          .split(/\n+/)
+          .filter(line => line.includes('**') && line.trim() !== '');
         
         if (alternatives.length > 0) {
           const success = await incrementUsage(user.id);
@@ -173,6 +204,10 @@ const GiveItAGo = () => {
             throw new Error("Failed to update usage count. Please try again.");
           }
           
+          // If we have original product info, add it to the beginning
+          if (originalProduct) {
+            alternatives = [originalProduct, ...alternatives];
+          }
           setAlternatives(alternatives);
         } else {
           throw new Error("No valid alternatives found. Please try again with a clearer image or product name.");
@@ -188,14 +223,8 @@ const GiveItAGo = () => {
     }
   };
 
-  const formatOutput = (text: string) => {
-    return text
-      .replace(/(\*\*(.*?)\*\*)/g, '<strong>$2</strong>')
-      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/\n/g, '<br /><br />');
-  };
-
-  const isCustomRequestEnabled = subscription?.subscription_tier === 'Glow' || subscription?.subscription_tier === 'Premium';
+  const isCustomRequestEnabled = subscription?.subscription_tier === 'Glow' || subscription?.subscription_tier === 'Glow Premium';
+  const isPremiumUser = subscription?.subscription_tier === 'Glow Premium';
 
   return (
     <div className="give-it-a-go-content">
@@ -273,6 +302,24 @@ const GiveItAGo = () => {
           />
         </div>
 
+        <div className="alternatives-selector">
+          <span className={isPremiumUser ? "premium-badge" : "premium-badge locked"}>
+            {isPremiumUser ? "Premium Feature" : "Premium Only"}
+          </span>
+          <select
+            value={numAlternatives}
+            onChange={(e) => setNumAlternatives(Number(e.target.value))}
+            className="alternatives-dropdown"
+            disabled={!isPremiumUser}
+          >
+            {[1, 2, 3, 4, 5, 6, 7].map(num => (
+              <option key={num} value={num}>
+                {num} Alternative{num > 1 ? 's' : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="country-selection">
           <input
             list="countries"
@@ -323,15 +370,69 @@ const GiveItAGo = () => {
 
       {alternatives.length > 0 && (
         <div className="results">
-          <ul className="alternatives-list">
-            {alternatives.map((alt, index) => (
-              <li 
-                key={index} 
-                className="alternative-item" 
-                dangerouslySetInnerHTML={{ __html: formatOutput(alt) }} 
-              />
-            ))}
-          </ul>
+          <table className="comparison-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price (Estimate)</th>
+                <th>Description</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alternatives.map((alt, index) => {
+                const nameMatch = alt.match(/\*\*(.*?)\*\*/);
+                const priceMatch = alt.match(/\$[\d,.]+/);
+                const descriptionMatch = index === 0 && searchMode === 'text'
+                  ? alt.match(/\$[\d,.]+\s*-\s*(.*?)(?=\s*$)/) // Match description for original product
+                  : alt.match(/Why it's good:\s*(.*?)(?=\s*$)/i); // Match description for alternatives
+                
+                const rawProductName = nameMatch ? nameMatch[1].trim() : `Product ${index + 1}`;
+                // Remove any "Alternative Product X:" prefix
+                const productName = rawProductName.replace(/^(?:Alternative\s*Product\s*\d*:?\s*)/i, '').trim();
+                const price = priceMatch ? priceMatch[0] : 'Price varies';
+                const description = descriptionMatch 
+                  ? descriptionMatch[1].trim() 
+                  : index === 0 && searchMode === 'text'
+                    ? alt.split('-')[2]?.trim() || 'Original product'
+                    : 'Product description not available';
+                
+                const searchUrl = getGoogleSearchUrl(productName);
+                const isOriginalProduct = index === 0 && searchMode === 'text';
+
+                return (
+                  <tr key={index} className={isOriginalProduct ? 'original-product' : ''}>
+                    <td className="product-name">
+                      <div className="product-name-container">
+                        <span>{productName}</span>
+                        {isOriginalProduct && <span className="current-product-badge">Current Product</span>}
+                      </div>
+                    </td>
+                    <td className="product-price">
+                      {price}
+                    </td>
+                    <td className="product-description">
+                      {description}
+                    </td>
+                    <td>
+                      {!isOriginalProduct ? (
+                        <a 
+                          href={searchUrl}
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="product-link"
+                        >
+                          Search Product
+                        </a>
+                      ) : (
+                        '-'
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
