@@ -102,12 +102,12 @@ const Pricing = () => {
                 {/* Glow Plan */}
                 <div className="pricing-card popular">
                     <div className="popular-badge">MOST POPULAR</div>
-                    <div className="discount-badge">Save 50%</div>
+                    <div className="discount-badge">Save 75%</div>
                     <div className="plan-header">
                         <h3>Glow</h3>
                         <div className="price">
                             <span className="original">$20</span>
-                            <span className="amount">$10</span>
+                            <span className="amount">$5</span>
                             <span className="period">/month</span>
                         </div>
                     </div>
@@ -133,12 +133,12 @@ const Pricing = () => {
 
                 {/* Premium Plan */}
                 <div className="pricing-card premium">
-                    <div className="discount-badge">Save 25%</div>
+                    <div className="discount-badge">Save 50%</div>
                     <div className="plan-header">
                         <h3>Glow Premium</h3>
                         <div className="price">
                             <span className="original">$40</span>
-                            <span className="amount">$30</span>
+                            <span className="amount">$19.99</span>
                             <span className="period">/month</span>
                         </div>
                     </div>
