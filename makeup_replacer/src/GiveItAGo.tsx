@@ -140,13 +140,13 @@ const GiveItAGo = () => {
 
       if (searchMode === 'text') {
         prompt += ` First, analyze and provide information about the original product "${productName}" in this exact format:
-        ORIGINAL: **${productName}** - $Price - Description
+        ORIGINAL: **${productName}** - Price Range: $XX-$XX - Description
 
         Then, provide exactly ${numAlternatives} more affordable alternatives in this format (one per line):
-        **[Product Name]** - $XX.XX - Why it's good: [explanation]`;
+        **[Product Name]** - Price Range: $XX-$XX - Why it's good: [explanation]`;
       } else {
         prompt += ` Analyze the image and provide exactly ${numAlternatives} affordable alternatives in this format (one per line):
-        **[Product Name]** - $XX.XX - Why it's good: [explanation]`;
+        **[Product Name]** - Price Range: $XX-$XX - Why it's good: [explanation]`;
       }
 
       if (subscription?.subscription_tier !== 'Basic' && customRequest && customRequest !== 'find me a...') {
@@ -382,7 +382,7 @@ const GiveItAGo = () => {
             <tbody>
               {alternatives.map((alt, index) => {
                 const nameMatch = alt.match(/\*\*(.*?)\*\*/);
-                const priceMatch = alt.match(/\$[\d,.]+/);
+                const priceMatch = alt.match(/Price Range:\s*\$[\d,.]+-\$[\d,.]+/i);
                 const descriptionMatch = index === 0 && searchMode === 'text'
                   ? alt.match(/\$[\d,.]+\s*-\s*(.*?)(?=\s*$)/) // Match description for original product
                   : alt.match(/Why it's good:\s*(.*?)(?=\s*$)/i); // Match description for alternatives
@@ -390,7 +390,7 @@ const GiveItAGo = () => {
                 const rawProductName = nameMatch ? nameMatch[1].trim() : `Product ${index + 1}`;
                 // Remove any "Alternative Product X:" prefix
                 const productName = rawProductName.replace(/^(?:Alternative\s*Product\s*\d*:?\s*)/i, '').trim();
-                const price = priceMatch ? priceMatch[0] : 'Price varies';
+                const price = priceMatch ? priceMatch[0].replace('Price Range:', '').trim() : 'Price varies';
                 const description = descriptionMatch 
                   ? descriptionMatch[1].trim() 
                   : index === 0 && searchMode === 'text'
