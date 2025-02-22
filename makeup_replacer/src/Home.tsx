@@ -152,15 +152,15 @@ const Home = () => {
                         {
                             avatar: quote1,
                             name: 'Dannielle Innes',
-                            role: 'Beauty Enthusiast',
-                            quote: '"I found dupes for all of my expensive skin care"',
+                            role: 'University Student',
+                            quote: '"As a student, finding alternative products has helped me save money"',
                             rating: 5
                         },
                         {
                             avatar: quote2,
-                            name: 'Test Test',
-                            role: 'University Student',
-                            quote: '"As a student, finding alternative products has helped me save money"',
+                            name: 'Brittany Brand',
+                            role: 'Beauty Enthusiast',
+                            quote: '"I found dupes for all of my expensive skin care"',
                             rating: 5
                         }
                     ].map((testimonial, index) => (
